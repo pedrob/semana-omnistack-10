@@ -44,9 +44,8 @@ module.exports = {
 	},
 
 	async update(req, res) {
-		const { name, techs, bio, avatar_url } = req.body;
-		const { dev_id } = req.headers;
-		const dev = await Dev.findById(dev_id);
+		const { github_username, name, techs, bio, avatar_url } = req.body;
+		const dev = await Dev.findOne({ github_username });
 		if (dev) {
 			name ? (dev.name = name) : dev.name;
 			techs ? (dev.techs = techs) : dev.techs;
@@ -61,10 +60,11 @@ module.exports = {
 	async destroy(req, res) {
 		const { github_username } = req.body;
 
-		await Dev.deleteOne({ github_username }, (err) => {
+		const result = await Dev.deleteOne({ github_username }, (err) => {
+			// console.log(err);
 			if (err) return res.status(400).json(err);
 		});
 
-		return res.json({ message: 'User deleted successfuly' });
+		return res.json(result);
 	}
 };
