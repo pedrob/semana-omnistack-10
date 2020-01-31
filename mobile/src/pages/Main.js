@@ -27,7 +27,7 @@ export default function Main({ navigation }) {
 			const { granted } = await requestPermissionsAsync();
 
 			if (granted) {
-				const { coords } = await await getCurrentPositionAsync({
+				const { coords } = await getCurrentPositionAsync({
 					enableHighAccuracy: true
 				});
 				const { latitude, longitude } = coords;
